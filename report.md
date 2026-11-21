@@ -12,34 +12,34 @@ Số lần nộp lại sau Rework: Chưa xác nhận đã nộp/Rework
 
 ## 1. Kiểm project
 
-| Mục | Đúng guideline Road v1.0? | Ghi chú |
-| --- | --- | --- |
-| 6 label và kiểu hình | Đúng trong XML export; project CVAT chưa xem trực tiếp | lane/road_curb: polyline; crosswalk/drivable: polygon; traffic_light/traffic_sign: rectangle. |
-| Thuộc tính và giá trị | Taxonomy trong XML khớp cấu hình repo; chưa xác minh UI project | Thuộc tính gồm position/style/color/kind, area_type, thuộc tính đèn và biển theo Road v1.0. |
-| 4 tag ảnh | Đủ trong cả 28 ảnh | camera, timeofday, weather, source; mỗi tag có thuộc tính `value`. |
+| Mục                   | Đúng guideline Road v1.0?                                       | Ghi chú                                                                                       |
+| --------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 6 label và kiểu hình  | Đúng trong XML export; project CVAT chưa xem trực tiếp          | lane/road_curb: polyline; crosswalk/drivable: polygon; traffic_light/traffic_sign: rectangle. |
+| Thuộc tính và giá trị | Taxonomy trong XML khớp cấu hình repo; chưa xác minh UI project | Thuộc tính gồm position/style/color/kind, area_type, thuộc tính đèn và biển theo Road v1.0.   |
+| 4 tag ảnh             | Đủ trong cả 28 ảnh                                              | camera, timeofday, weather, source; mỗi tag có thuộc tính `value`.                            |
 
 Cách kết thúc polyline trên phiên bản CVAT này: Chưa xác minh trực tiếp; guide minh họa phím **N**.  
 Cách đặt tag ảnh trên phiên bản CVAT này: Chưa xác minh trực tiếp; XML export có đủ bốn tag trên mỗi ảnh.
 
 ## 2. Số lượng đã gán
 
-| Task | Số ảnh | lane | road_curb | crosswalk | drivable | traffic_light | traffic_sign |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| front bắt buộc (A01–A12) | 12 | 37 | 12 | 5 | 31 | 13 | 12 |
-| front-extra (A13–A16) | 4 | 12 | 2 | 6 | 11 | 6 | 10 |
-| fisheye bắt buộc (B01–B08) | 8 | 14 | 15 | 14 | 18 | 3 | 1 |
-| fisheye-extra (B09–B12) | 4 | 2 | 6 | 6 | 7 | 0 | 1 |
+| Task                       | Số ảnh | lane | road_curb | crosswalk | drivable | traffic_light | traffic_sign |
+| -------------------------- | -----: | ---: | --------: | --------: | -------: | ------------: | -----------: |
+| front bắt buộc (A01–A12)   |     12 |   37 |        12 |         5 |       31 |            13 |           12 |
+| front-extra (A13–A16)      |      4 |   12 |         2 |         6 |       11 |             6 |           10 |
+| fisheye bắt buộc (B01–B08) |      8 |   14 |        15 |        14 |       18 |             3 |            1 |
+| fisheye-extra (B09–B12)    |      4 |    2 |         6 |         6 |        7 |             0 |            1 |
 
 Số shape được đếm từ hai ZIP. Tổng: 28 ảnh; front 16 ảnh, fisheye 12 ảnh. Manifest ghi đủ bốn tag cho mọi ảnh và `contains_images: false` cho cả hai ZIP.
 
 ## 3. Bảng ca khó cần tự kiểm
 
-| Ảnh | Nhãn | Phân vân giữa | Kết quả lint / việc cần làm |
-| --- | --- | --- | --- |
-| A05, A06, A09, A13, A14 | lane | Thiếu L1/R1 hay ảnh thật sự không có vạch | Lint báo thiếu 6 vị trí L1/R1; xem ảnh và nhờ coach xác nhận trường hợp không thấy vạch. |
-| B05–B08, B10 | lane | position theo làn hay `other` | 9 lane ở camera fisheye bên trái/phải bị báo cần `position=other`; kiểm và sửa thuộc tính. |
-| A06, A08, A11–A13; B03, B06, B07 | lane | Vạch đứt bị tách thành nhiều polyline hay nhiều vạch riêng | Lint có 9 cảnh báo trùng position; đối chiếu ảnh để quyết định nối/tách đúng. |
-| B02–B10 | lane/road_curb/đèn/biển | Polyline có bám cung; vật thể có thuộc vùng rìa | Có 22 cảnh báo fisheye; kiểm đường cong và `edge_zone` bằng mắt. |
+| Ảnh                              | Nhãn                    | Phân vân giữa                                              | Kết quả lint / việc cần làm                                                                |
+| -------------------------------- | ----------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| A05, A06, A09, A13, A14          | lane                    | Thiếu L1/R1 hay ảnh thật sự không có vạch                  | Lint báo thiếu 6 vị trí L1/R1; xem ảnh và nhờ coach xác nhận trường hợp không thấy vạch.   |
+| B05–B08, B10                     | lane                    | position theo làn hay `other`                              | 9 lane ở camera fisheye bên trái/phải bị báo cần `position=other`; kiểm và sửa thuộc tính. |
+| A06, A08, A11–A13; B03, B06, B07 | lane                    | Vạch đứt bị tách thành nhiều polyline hay nhiều vạch riêng | Lint có 9 cảnh báo trùng position; đối chiếu ảnh để quyết định nối/tách đúng.              |
+| B02–B10                          | lane/road_curb/đèn/biển | Polyline có bám cung; vật thể có thuộc vùng rìa            | Có 22 cảnh báo fisheye; kiểm đường cong và `edge_zone` bằng mắt.                           |
 
 ## 4. Phiếu QC 1 nhận được
 
@@ -49,10 +49,10 @@ Lint hiện báo **15 nặng, 32 chính, 2 nhẹ**. Các mã: QC1-02 (6), QC1-03
 
 ## 5. Kiểm file export
 
-| File | Mở lại được? | Số shape ảnh đầu / ảnh thứ hai trong ZIP | Tag camera có trong XML? |
-| --- | --- | ---: | --- |
-| `nguyenthephach-front.zip` | Có; 16 ảnh | 8 / 6 | Có |
-| `nguyenthephach-fisheye.zip` | Có; 12 ảnh | 4 / 10 | Có |
+| File                         | Mở lại được? | Số shape ảnh đầu / ảnh thứ hai trong ZIP | Tag camera có trong XML? |
+| ---------------------------- | ------------ | ---------------------------------------: | ------------------------ |
+| `nguyenthephach-front.zip`   | Có; 16 ảnh   |                                    8 / 6 | Có                       |
+| `nguyenthephach-fisheye.zip` | Có; 12 ảnh   |                                   4 / 10 | Có                       |
 
 Số shape trong CVAT job chưa đối chiếu trực tiếp; các số trên là số shape đọc từ XML trong file ZIP. Hai ZIP đang khớp manifest revision 1. Manifest ghi `contains_images: false` cho cả hai.
 
@@ -75,9 +75,9 @@ Nếu lane thiếu hoặc sai thuộc tính/vị trí đi vào dữ liệu huấ
 
 Đã chạy `road_lab.rowanchor` trên `nguyenthephach-front.zip`, ảnh **A01**, polyline **L1** (`lane#3`). Tọa độ x nội suy từ polyline của tôi:
 
-| y | 720 | 680 | 640 | 600 | 560 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| x của tôi (px) | 112.2 | 158.2 | 204.3 | 250.3 | 297.5 |
+| y                        |             720 |             680 |             640 |             600 |             560 |
+| ------------------------ | --------------: | --------------: | --------------: | --------------: | --------------: |
+| x của tôi (px)           |           112.2 |           158.2 |           204.3 |           250.3 |           297.5 |
 | x của bạn được kiểm (px) | Chưa có dữ liệu | Chưa có dữ liệu | Chưa có dữ liệu | Chưa có dữ liệu | Chưa có dữ liệu |
 
 1. Nếu polyline kết thúc sớm hơn 40 px theo trục y, đầu gần xe sẽ dừng tại khoảng y=680 thay vì y=720. Khi đó hàng **y=720** không còn giao với polyline và kết quả sẽ là “không có làn”; các hàng 680–560 vẫn có thể được nội suy. Đây là hàng gần xe nhất nên việc mất tín hiệu tại đây ảnh hưởng đáng kể hơn tới ước lượng làn ở vùng gần xe.

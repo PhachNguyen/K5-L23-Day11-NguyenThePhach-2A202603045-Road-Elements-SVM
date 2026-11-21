@@ -8,8 +8,6 @@ Lần export trong manifest (`revision`): 1
 Thời điểm tạo manifest: 2026-11-21 04:32:04 UTC  
 Số lần nộp lại sau Rework: Chưa xác nhận đã nộp/Rework
 
-> Số liệu bên dưới được đối chiếu với hai ZIP hiện có và manifest revision 1. Lint kiểm tra định dạng và các quy tắc tự động, không xác nhận chất lượng hình học bằng cách so với ảnh/ground truth. Các mục cần kiểm tra trực tiếp hoặc thông tin từ người kiểm được đánh dấu chưa xác minh.
-
 ## 1. Kiểm project
 
 | Mục                   | Đúng guideline Road v1.0?                                       | Ghi chú                                                                                       |
@@ -75,11 +73,10 @@ Nếu lane thiếu hoặc sai thuộc tính/vị trí đi vào dữ liệu huấ
 
 Đã chạy `road_lab.rowanchor` trên `nguyenthephach-front.zip`, ảnh **A01**, polyline **L1** (`lane#3`). Tọa độ x nội suy từ polyline của tôi:
 
-| y                        |             720 |             680 |             640 |             600 |             560 |
-| ------------------------ | --------------: | --------------: | --------------: | --------------: | --------------: |
-| x của tôi (px)           |           112.2 |           158.2 |           204.3 |           250.3 |           297.5 |
-| x của bạn được kiểm (px) | Chưa có dữ liệu | Chưa có dữ liệu | Chưa có dữ liệu | Chưa có dữ liệu | Chưa có dữ liệu |
+| y              |   720 |   680 |   640 |   600 |   560 |
+| -------------- | ----: | ----: | ----: | ----: | ----: |
+| x của tôi (px) | 112.2 | 158.2 | 204.3 | 250.3 | 297.5 |
 
 1. Nếu polyline kết thúc sớm hơn 40 px theo trục y, đầu gần xe sẽ dừng tại khoảng y=680 thay vì y=720. Khi đó hàng **y=720** không còn giao với polyline và kết quả sẽ là “không có làn”; các hàng 680–560 vẫn có thể được nội suy. Đây là hàng gần xe nhất nên việc mất tín hiệu tại đây ảnh hưởng đáng kể hơn tới ước lượng làn ở vùng gần xe.
-2. Chưa có tọa độ của bạn được kiểm nên chưa thể tính độ lệch pixel tại y=720 và y=560. Sau khi có hai tọa độ đó, độ lệch lần lượt là `|x_tôi − x_bạn|` ở từng hàng. Thông thường sai lệch ở y=720 ảnh hưởng trực tiếp hơn đến điều khiển gần xe; đây là nhận định định tính, chưa phải phép đo trên cặp nhãn.
+2. Workspace hiện chỉ có ZIP nhãn của tôi, chưa có ZIP của bạn được kiểm nên chưa thể tính độ lệch pixel tại y=720 và y=560. Cần ZIP của cùng ảnh A01 từ bạn đó để tính `|x_tôi − x_bạn|` ở từng hàng. Thông thường sai lệch ở y=720 ảnh hưởng trực tiếp hơn đến điều khiển gần xe; đây là nhận định định tính, chưa phải phép đo trên cặp nhãn.
 3. Đảo thứ tự các điểm không làm đổi giao điểm x-y của cùng một polyline: phép nội suy kiểm tra từng đoạn theo cả hai chiều. Tuy vậy, vẽ từ xa về gần vi phạm quy tắc gán nhãn của lab; checker có thể báo QC1-04 và pipeline/model phụ thuộc thứ tự điểm có thể học sai chiều.

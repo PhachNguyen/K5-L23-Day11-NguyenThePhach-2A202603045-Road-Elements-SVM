@@ -1,0 +1,7 @@
+<polyline label="lane" source="file" occluded="0" points="0.00,602.90;107.42,569.34;198.20,543.38;269.62,521.79;333.44,506.08" z_order="0">
+  <attribute name="position">L2</attribute>
+  <attribute name="style">solid</attribute>
+  <attribute name="color">white</attribute>
+  <attribute name="kind">single</attribute>
+</polyline>
+    
